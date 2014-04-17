@@ -1,5 +1,7 @@
 <?php
-$gifs = $this->get_gifs();
+global $jtGiffy, $wp_scripts;
+
+$gifs = $jtGiffy->get_gifs();
 if ( ! $gifs )
 	return;
 
@@ -12,11 +14,8 @@ $bgs = array(
 	'gyroscopic-bg.gif',
 	'rock-transform-bg.gif',
 );
-
 $bg = $bgs[ array_rand( $bgs ) ];
-$font = site_url( '/wp-content/mu-plugins/giffy/mclaren/mclaren-regular-webfont' );
-global $wp_scripts;
-// add_action( 'wp_footer', array( $this, 'gif_script' ), 999 );
+
 ?>
 <!doctype html>
 
@@ -25,7 +24,7 @@ global $wp_scripts;
 	<meta charset="utf-8">
 	<title>Jtsternberg Gifs</title>
 	<script src="<?php echo site_url( $wp_scripts->registered['jquery-core']->src ); ?>" type="text/javascript"></script>
-	<link href="<?php echo site_url( '/wp-content/mu-plugins/giffy/mclaren/stylesheet.css' ); ?>" rel="stylesheet" type="text/css">
+	<link href="<?php echo jtGiffySite::$plugin_url .'mclaren/stylesheet.css'; ?>" rel="stylesheet" type="text/css">
 	<meta name="description" content="all the gifs">
 	<meta name="author" content="Jtsternberg">
 	<!-- Sets initial viewport load  -->
@@ -39,7 +38,7 @@ global $wp_scripts;
 		box-sizing: border-box;
 	}
 	html {
-		background: url( '<?php echo site_url( '/gifs/'. $bg ); ?>' );
+		background: url( '<?php jtGiffySite::$plugin_url .'bgs/'. $bg; ?>' );
 	}
 	body {
 		font-family: 'mclarenregular', sans-serif !important;
