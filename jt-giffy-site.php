@@ -22,8 +22,9 @@ class jtGiffySite {
 		self::$plugin_url  = trailingslashit( plugins_url( '' , __FILE__ )  );;
 		self::$plugin_dir  = plugin_dir_path( __FILE__ );
 
+		$plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
 		// is main plugin active? If not, throw a notice and deactivate
-		if ( ! in_array( 'jtGiffy/jtGiffy.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( ! in_array( 'jtGiffy/jtGiffy.php', $plugins ) && ! in_array( 'jt-giffy/jtGiffy.php', $plugins ) ) {
 			add_action( 'all_admin_notices', array( $this, 'jtGiffy_required' ) );
 			return;
 		}

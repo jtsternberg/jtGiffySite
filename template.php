@@ -15,6 +15,7 @@ $bgs = array(
 	'rock-transform-bg.gif',
 );
 $bg = $bgs[ array_rand( $bgs ) ];
+$bg = jtGiffySite::$plugin_url .'bgs/'. $bg;
 
 ?>
 <!doctype html>
@@ -38,7 +39,7 @@ $bg = $bgs[ array_rand( $bgs ) ];
 		box-sizing: border-box;
 	}
 	html {
-		background: url( '<?php jtGiffySite::$plugin_url .'bgs/'. $bg; ?>' );
+		background: url( '<?php echo $bg; ?>' );
 	}
 	body {
 		font-family: 'mclarenregular', sans-serif !important;
