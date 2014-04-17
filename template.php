@@ -17,6 +17,7 @@ $bgs = array(
 $bg = $bgs[ array_rand( $bgs ) ];
 $bg = jtGiffySite::$plugin_url .'bgs/'. $bg;
 
+$spin = includes_url( '/images/spinner-2x.gif' );
 ?>
 <!doctype html>
 
@@ -209,6 +210,7 @@ $bg = jtGiffySite::$plugin_url .'bgs/'. $bg;
 
 		var doPreview = function( src ) {
 			$preview
+				.attr( 'src', '<?php echo $spin; ?>' )
 				.attr( 'src', src )
 				.fadeIn()
 				.css({ 'max-height': Math.round( $(window).height() - topH ) })
