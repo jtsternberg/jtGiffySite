@@ -151,7 +151,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		cursor: pointer;
 	}
 	.centered {
-		text-align: center;
+		text-align: right;
+		position: fixed;
+		top: 150px;
+		right: 20px;
 	}
 	.not-mobile li:hover span {
 		display: none;
@@ -179,6 +182,12 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		}
 		#all.hide, #share.hide {
 			display: none;
+		}
+		.centered {
+			text-align: center;
+			position: relative;
+			top: 0;
+			right: 0;
 		}
 
 	}
@@ -234,7 +243,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		}
 
 		var triggerURL = function( url ) {
-			$lis.hide();
+			//$lis.hide();
 			doSearch( url );
 			doPreview( url );
 		}
@@ -291,6 +300,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			}).on( 'click', 'li a', function( evt ) {
 				evt.preventDefault();
 				triggerURL( $(this).attr('href'), true );
+				doPreview( $(this).attr('href'), true );
 			}).on( 'click', '#share', function( evt ) {
 				evt.preventDefault();
 				var url = '<?php echo $replace; ?>'+ encodeURIComponent( $search.data( 'cache' ).toLowerCase() );
