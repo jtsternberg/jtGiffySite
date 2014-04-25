@@ -299,6 +299,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				$gifs.find( 'li' ).show();
 			}).on( 'click', 'li a', function( evt ) {
 				evt.preventDefault();
+				$preview.hide();
 				triggerURL( $(this).attr('href'), true );
 				doPreview( $(this).attr('href'), true );
 			}).on( 'click', '#share', function( evt ) {
