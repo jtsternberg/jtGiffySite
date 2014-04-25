@@ -1,7 +1,17 @@
 <?php
+// Get Parbs' gifs
+$request = wp_remote_retrieve_body( wp_remote_get( 'http://gifsb.in/gifs.json' ) );
+$parbs_gifs = array();
+if ( $request ) {
+	$parbs_gifs = json_decode( $request );
+	$parbs_gifs = isset( $parbs_gifs->data ) ? $parbs_gifs->data : array();
+}
+
 global $jtGiffy, $wp_scripts;
 
 $gifs = $jtGiffy->get_gifs();
+$gifs = array_merge( (array) $gifs, (array) $parbs_gifs );
+
 if ( ! $gifs )
 	return;
 
@@ -181,9 +191,8 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		<ul>
 		<?php
 		foreach ( $gifs as $filename => $gif ) {
-			$name = explode( '.', $gif['name'] );
-			$name = array_shift( $name );
-			echo '<li data-name="'. $name .'"><a href="'. $gif['src'] .'" target="_blank"><span>'. $gif['name'] .'</span><span class="hide">'. $filename .'</span></a></li>';
+			$name = $gif->name;
+			echo '<li data-name="'. $name .'"><a href="'. $gif->src .'" target="_blank"><span>'. $gif->name .'</span><span class="hide">'. $filename .'</span></a></li>';
 		}
 		?>
 		</ul>
