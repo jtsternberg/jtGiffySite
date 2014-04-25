@@ -317,7 +317,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				$search.val('');
 				$preview.hide();
 				$gifs.find( 'li' ).show();
-			}).on( 'click', 'li a', function( evt ) {
+			}).on( 'click mouseenter', 'li a', function( evt ) {
 				evt.preventDefault();
 				$preview.hide();
 				triggerURL( $(this).attr('href'), true );
