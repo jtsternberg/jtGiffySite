@@ -7,10 +7,18 @@ if ( $request ) {
 	$parbs_gifs = isset( $parbs_gifs->data ) ? $parbs_gifs->data : array();
 }
 
+// Get Greg's gifs
+$request = wp_remote_retrieve_body( wp_remote_get( 'http://gregrickaby.com/?gifs&json' ) );
+$gregs_gifs = array();
+if ( $request ) {
+	$gregs_gifs = json_decode( $request );
+	$gregs_gifs = isset( $gregs_gifs->data ) ? $gregs_gifs->data : array();
+}
+
 global $jtGiffy, $wp_scripts;
 
 $gifs = $jtGiffy->get_gifs();
-$gifs = array_merge( (array) $gifs, (array) $parbs_gifs );
+$gifs = array_merge( (array) $gifs, (array) $parbs_gifs, (array) $gregs_gifs );
 
 if ( ! $gifs )
 	return;
