@@ -127,6 +127,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	ul {
 		clear: both;
 		padding: .5em 0;
+		margin-top: 10em;
 	}
 	li {
 		color:black;
@@ -170,6 +171,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	}
 	#share {
 		float: right;
+	}
+	#top{
+		position: fixed;
+		width: 95%;
 	}
 	@media screen and (max-width: 400px) {
 		#all, #share {
@@ -217,6 +222,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 
 	<script type="text/javascript">
 	jQuery(document).ready(function($){
+
 		var $gifs    = $('.gifs');
 		var $preview = $gifs.find( '#preview' );
 		var $search  = $gifs.find( '#search' );
@@ -287,6 +293,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				});
 			}).on( 'submit', 'form', function( evt ) {
 				console.log( 'submit' );
+				//location.hash = $search.data('cache').toLowerCase();
 				evt.preventDefault();
 				$first = $gifs.find('li:visible:first a');
 				if ( $first.length ) {
@@ -318,6 +325,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				// 	$self.select();
 				// }, 20 );
 			});
+
+			if(window.location.hash){
+				doSearch( window.location.hash.substring(1) );
+			}
+
 
 
 	});
