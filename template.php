@@ -75,6 +75,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	}
 	body {
 		font-family: 'mclarenregular', sans-serif !important;
+		margin: 0;
 	}
 	body:before {
 		content: '';
@@ -168,7 +169,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		text-align: right;
 		position: fixed;
 		top: 150px;
-		right: 20px;
+		right: 1em;
 	}
 	.not-mobile li:hover span {
 		display: none;
@@ -187,11 +188,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	}
 	#top{
 		position: fixed;
-		width: 95%;
-		padding: 20px 10px;
+		width: 100%;
+		padding: 1em 1em;
 		background: rgba(255,255,255,.8);
 		top: 0;
-		left: 1em;
+		left: 0;
 	}
 	@media screen and (max-width: 400px) {
 		#all, #share {
