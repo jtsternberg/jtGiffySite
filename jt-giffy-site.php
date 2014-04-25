@@ -31,7 +31,10 @@ class jtGiffySite {
 	}
 
 	public function hooks() {
+		global $jtGiffy;
+
 		if ( isset( $_GET['gifs'] ) ) {
+			remove_action( 'template_redirect', array( $jtGiffy, 'get_gifs' ), 9999 );
 			add_action( 'template_redirect', array( $this, 'thegifs' ), 9999 );
 		}
 	}

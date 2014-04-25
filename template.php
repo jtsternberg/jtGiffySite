@@ -1,4 +1,5 @@
 <?php
+
 // Get Parbs' gifs
 $request = wp_remote_retrieve_body( wp_remote_get( 'http://gifsb.in/gifs.json' ) );
 $parbs_gifs = array();
@@ -17,8 +18,20 @@ if ( $request ) {
 
 global $jtGiffy, $wp_scripts;
 
-$gifs = $jtGiffy->get_gifs();
-$gifs = array_merge( (array) $gifs, (array) $parbs_gifs, (array) $gregs_gifs );
+// Halt here for json
+if ( isset( $_GET['json'] ) ) {
+
+	$my_gifs = $jtGiffy->gif_urls( $jtGiffy->gif_paths() );
+	$my_gifs = $my_gifs ? $my_gifs : array();
+
+	$gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs );
+
+	wp_send_json_success( $gifs );
+
+}
+
+$my_gifs = $jtGiffy->get_gifs();
+$gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs );
 
 if ( ! $gifs )
 	return;
