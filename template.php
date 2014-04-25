@@ -42,7 +42,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Jtsternberg Gifs</title>
+	<title>WDS Gifs</title>
 	<script src="<?php echo site_url( $wp_scripts->registered['jquery-core']->src ); ?>" type="text/javascript"></script>
 	<link href="<?php echo jtGiffySite::$plugin_url .'mclaren/stylesheet.css'; ?>" rel="stylesheet" type="text/css">
 	<meta name="description" content="all the gifs">
@@ -127,6 +127,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	ul {
 		clear: both;
 		padding: .5em 0;
+		margin-top: 10em;
 	}
 	li {
 		color:black;
@@ -151,7 +152,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		cursor: pointer;
 	}
 	.centered {
-		text-align: center;
+		text-align: right;
+		position: fixed;
+		top: 150px;
+		right: 20px;
 	}
 	.not-mobile li:hover span {
 		display: none;
@@ -168,6 +172,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	#share {
 		float: right;
 	}
+	#top{
+		position: fixed;
+		width: 95%;
+	}
 	@media screen and (max-width: 400px) {
 		#all, #share {
 			float: none;
@@ -179,6 +187,12 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		}
 		#all.hide, #share.hide {
 			display: none;
+		}
+		.centered {
+			text-align: center;
+			position: relative;
+			top: 0;
+			right: 0;
 		}
 
 	}
@@ -200,7 +214,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		<?php
 		foreach ( $gifs as $filename => $gif ) {
 			$name = $gif->name;
-			echo '<li data-name="'. $name .'"><a href="'. $gif->src .'" target="_blank"><span>'. $gif->name .'</span><span class="hide">'. $filename .'</span></a></li>';
+			echo '<li data-name="'. $name .'"><a href="'. $gif->src .'" target="_blank"><span>'. $gif->name .'</span><span class="hide">'. $gif->src .'</span></a></li>';
 		}
 		?>
 		</ul>
@@ -208,6 +222,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 
 	<script type="text/javascript">
 	jQuery(document).ready(function($){
+
 		var $gifs    = $('.gifs');
 		var $preview = $gifs.find( '#preview' );
 		var $search  = $gifs.find( '#search' );
@@ -234,7 +249,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		}
 
 		var triggerURL = function( url ) {
-			$lis.hide();
+			//$lis.hide();
 			doSearch( url );
 			doPreview( url );
 		}
@@ -278,6 +293,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				});
 			}).on( 'submit', 'form', function( evt ) {
 				console.log( 'submit' );
+				//location.hash = $search.data('cache').toLowerCase();
 				evt.preventDefault();
 				$first = $gifs.find('li:visible:first a');
 				if ( $first.length ) {
@@ -290,7 +306,9 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				$gifs.find( 'li' ).show();
 			}).on( 'click', 'li a', function( evt ) {
 				evt.preventDefault();
+				$preview.hide();
 				triggerURL( $(this).attr('href'), true );
+				doPreview( $(this).attr('href'), true );
 			}).on( 'click', '#share', function( evt ) {
 				evt.preventDefault();
 				var url = '<?php echo $replace; ?>'+ encodeURIComponent( $search.data( 'cache' ).toLowerCase() );
@@ -307,6 +325,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				// 	$self.select();
 				// }, 20 );
 			});
+
+			if(window.location.hash){
+				doSearch( window.location.hash.substring(1) );
+			}
+
 
 
 	});
