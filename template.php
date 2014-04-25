@@ -188,6 +188,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	#top{
 		position: fixed;
 		width: 95%;
+		padding: 20px 10px;
+		background: rgba(255,255,255,.8);
+		top: 0;
+		left: 1em;
 	}
 	@media screen and (max-width: 400px) {
 		#all, #share {
