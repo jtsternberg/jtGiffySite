@@ -196,9 +196,9 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	}
 	.centered {
 		text-align: center;
-		position: relative;
-		top: 0;
-		right: 0;
+		position: fixed;
+		top: 10em;
+		right: 2em;
 	}
 	#top{
 		position: relative;
