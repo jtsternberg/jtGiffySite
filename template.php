@@ -194,6 +194,19 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		top: 0;
 		left: 0;
 	}
+	.centered {
+		text-align: center;
+		position: relative;
+		top: 0;
+		right: 0;
+	}
+	#top{
+		position: relative;
+		width: auto;
+	}
+	ul {
+		margin-top: 0em;
+	}
 	@media screen and (max-width: 400px) {
 		#all, #share {
 			float: none;
