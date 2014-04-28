@@ -395,9 +395,6 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			if(window.location.hash){
 				doSearch( window.location.hash.substring(1) );
 			}
-
-
-
 	});
 	</script>
 </body>
