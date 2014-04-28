@@ -179,6 +179,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	}
 	#preview {
 		margin-top: .5em;
+		position: fixed;
+		right: 1em;
+		top: 12em;
+		max-width: 60%;
+		height: auto;
 	}
 	#all {
 		float: left;
@@ -187,22 +192,21 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		float: right;
 	}
 	#top{
-		position: fixed;
-		width: 100%;
+		/*position: fixed;*/
+		/*width: 100%;*/
 		padding: 1em 1em;
 		background: rgba(255,255,255,.8);
 		top: 0;
 		left: 0;
+		position: relative;
+		width: auto;
+		overflow: hidden;
 	}
 	.centered {
 		text-align: center;
-		position: fixed;
-		top: 10em;
-		right: 2em;
-	}
-	#top{
 		position: relative;
-		width: auto;
+		top: 0;
+		right: 0;
 	}
 	ul {
 		margin-top: 0em;
@@ -225,7 +229,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			top: 0;
 			right: 0;
 		}
-
+		#preview {
+			position: static;
+			right: auto;
+			top: auto;
+		}
 	}
 	</style>
 
@@ -261,14 +269,20 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		var $lis     = $gifs.find( 'li' );
 		var topH     = Math.round( $gifs.find( '#top' ).height() + 50 );
 		var doSubmit = false;
+		var isMobile = $('body').hasClass( 'mobile' );
+		var doFocus  = true;
 
 		var doSearch = function( val ) {
 			if ( val ) {
 				doSubmit = true;
 				$search.val( val );
 			}
-			$search.focus().select()
-				.get( 0 ).setSelectionRange(0, 9999);
+
+			if ( doFocus ) {
+				$search.focus().select()
+					.get( 0 ).setSelectionRange(0, 9999);
+			}
+			doFocus = true;
 		}
 
 		var doPreview = function( src ) {
@@ -276,11 +290,14 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				.attr( 'src', '<?php echo $spin; ?>' )
 				.attr( 'src', src )
 				.fadeIn()
-				.css({ 'max-height': Math.round( $(window).height() - topH ) })
+				.css({ 'max-height': Math.round( $(window).height() - topH ) });
+
+			if ( isMobile ) {
+				$(window).scrollTop( 0 );
+			}
 		}
 
 		var triggerURL = function( url ) {
-			//$lis.hide();
 			doSearch( url );
 			doPreview( url );
 		}
@@ -338,8 +355,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			}).on( 'click mouseenter', 'li a', function( evt ) {
 				evt.preventDefault();
 				$preview.hide();
-				triggerURL( $(this).attr('href'), true );
-				doPreview( $(this).attr('href'), true );
+				if ( isMobile ) {
+					doFocus = false;
+				}
+				triggerURL( $(this).attr('href') );
+				doPreview( $(this).attr('href') );
 			}).on( 'click', '#share', function( evt ) {
 				evt.preventDefault();
 				var url = '<?php echo $replace; ?>'+ encodeURIComponent( $search.data( 'cache' ).toLowerCase() );
