@@ -165,12 +165,6 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		max-height: 100%;
 		cursor: pointer;
 	}
-	.centered {
-		text-align: right;
-		position: fixed;
-		top: 150px;
-		right: 1em;
-	}
 	.not-mobile li:hover span {
 		display: none;
 	}
@@ -202,7 +196,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		width: auto;
 		overflow: hidden;
 	}
-	.centered {
+	#centered {
 		text-align: center;
 		position: relative;
 		top: 0;
@@ -223,7 +217,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		#all.hide, #share.hide {
 			display: none;
 		}
-		.centered {
+		#centered {
 			text-align: center;
 			position: relative;
 			top: 0;
@@ -233,7 +227,19 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			position: static;
 			right: auto;
 			top: auto;
+			max-width: 100%;
+			min-height: 80px;
+			min-width: 80px;
+			margin: 1em auto 0;
 		}
+		li {
+			text-align: center;
+		}
+		li a {
+			display: block;
+			text-align: left;
+		}
+
 	}
 	</style>
 
@@ -248,7 +254,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			<!-- <input type="text" class="hide" id="copy" readonly="readonly" value=""/> -->
 			<p><button id="all" >Show All</button><button class="hide" id="share" >Share Search</button></p>
 		</div>
-		<p class="centered"><img id="preview" class="hide" src="" alt=""/></p>
+		<p id="centered"><img id="preview" class="hide" src="" alt=""/></p>
 		<ul>
 		<?php
 		foreach ( $gifs as $filename => $gif ) {
@@ -262,15 +268,17 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	<script type="text/javascript">
 	jQuery(document).ready(function($){
 
-		var $gifs    = $('.gifs');
-		var $preview = $gifs.find( '#preview' );
-		var $search  = $gifs.find( '#search' );
-		var $share   = $gifs.find( '#share' );
-		var $lis     = $gifs.find( 'li' );
-		var topH     = Math.round( $gifs.find( '#top' ).height() + 50 );
-		var doSubmit = false;
-		var isMobile = $('body').hasClass( 'mobile' );
-		var doFocus  = true;
+		var $gifs     = $('.gifs');
+		var $preview  = $gifs.find( '#preview' );
+		var $search   = $gifs.find( '#search' );
+		var $centered = $gifs.find( '#centered' );
+		var $share    = $gifs.find( '#share' );
+		var $lis      = $gifs.find( 'li' );
+		var topH      = Math.round( $gifs.find( '#top' ).height() + 50 );
+		var doSubmit  = false;
+		var isMobile  = $('body').hasClass( 'mobile' );
+		var doFocus   = true;
+		var $item     = null;
 
 		var doSearch = function( val ) {
 			if ( val ) {
@@ -285,21 +293,29 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			doFocus = true;
 		}
 
-		var doPreview = function( src ) {
+		var doPreview = function( src, clicked_preview ) {
 			$preview
 				.attr( 'src', '<?php echo $spin; ?>' )
 				.attr( 'src', src )
 				.fadeIn()
 				.css({ 'max-height': Math.round( $(window).height() - topH ) });
 
-			if ( isMobile ) {
-				$(window).scrollTop( 0 );
+			if ( isMobile && ( $item || clicked_preview ) ) {
+				if ( true === clicked_preview ) {
+					$centered.append( $preview );
+				} else {
+					$item.append( $preview );
+					$item = null;
+				}
+
 			}
+
 		}
 
-		var triggerURL = function( url ) {
+		var triggerURL = function( url, clicked_preview ) {
+
 			doSearch( url );
-			doPreview( url );
+			doPreview( url, clicked_preview );
 		}
 
 		setTimeout( function() {
@@ -328,8 +344,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				$share.show();
 				$lis.hide().each( function() {
 					var $self = $(this);
-					// console.log( 'name', $self.data( 'name' ) );
-					// return;
+
 					if ( $self.data( 'name' ).toUpperCase().indexOf( search ) != -1 ) {
 						$self.show();
 						if ( first ) {
@@ -340,8 +355,6 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 
 				});
 			}).on( 'submit', 'form', function( evt ) {
-				console.log( 'submit' );
-				//location.hash = $search.data('cache').toLowerCase();
 				evt.preventDefault();
 				$first = $gifs.find('li:visible:first a');
 				if ( $first.length ) {
@@ -357,6 +370,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				$preview.hide();
 				if ( isMobile ) {
 					doFocus = false;
+					$item = $(this).parents('li');
 				}
 				triggerURL( $(this).attr('href') );
 				doPreview( $(this).attr('href') );
@@ -368,6 +382,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			})
 			.on( 'click', '#preview', function( evt ) {
 				evt.preventDefault();
+				// $gifs.find( 'li' ).hide();
 				triggerURL( $(this).attr('src'), true );
 			})
 			.on( 'focus', '#search', function( evt ) {
