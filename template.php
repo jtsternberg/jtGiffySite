@@ -33,8 +33,11 @@ if ( isset( $_GET['json'] ) ) {
 $my_gifs = $jtGiffy->get_gifs();
 $gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs );
 
+// bail if no gifs.
 if ( ! $gifs )
 	return;
+
+ksort( $gifs );
 
 $replace = site_url( '/?gifs=' );
 $search = ! empty( $_GET['gifs'] ) ? $_GET['gifs'] : '';
