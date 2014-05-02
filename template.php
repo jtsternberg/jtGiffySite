@@ -250,6 +250,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 <body class="<?php echo wp_is_mobile() ? 'mobile' : 'not-mobile'; ?>">
 	<div class="gifs">
 		<div id="top">
+			<p>psssst... <a href="https://github.com/jtsternberg/Alfred-Gets-Giffy" target="_blank">Get the alfredapp workflow</a>.</p>
 			<form>
 				<input autofocus="autofocus" data-search="<?php echo esc_attr( $search ); ?>" type="text" id="search" placeholder="GIF SEARCH - Start typing and hit enter" value=""/>
 				<input type="submit" class="hide" value="search">
