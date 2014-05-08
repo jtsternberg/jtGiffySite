@@ -179,7 +179,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		margin-top: .5em;
 		position: fixed;
 		right: 1em;
-		top: 12em;
+		top: 15em;
 		max-width: 60%;
 		height: auto;
 	}
