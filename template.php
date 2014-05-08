@@ -65,6 +65,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	<meta name="author" content="Jtsternberg">
 	<!-- Sets initial viewport load  -->
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
 
 	<style type="text/css" media="screen">
 
