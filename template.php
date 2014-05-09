@@ -1,5 +1,8 @@
 <?php
 
+$search = ! empty( $_GET['gifs'] ) ? $_GET['gifs'] : '';
+$search_url = $search ? '='. $search : '';
+
 // Get Parbs' gifs
 $request = wp_remote_retrieve_body( wp_remote_get( 'http://gifsb.in/gifs.json' ) );
 $parbs_gifs = array();
@@ -9,7 +12,7 @@ if ( $request ) {
 }
 
 // Get Greg's gifs
-$request = wp_remote_retrieve_body( wp_remote_get( 'http://gregrickaby.com/?gifs&json' ) );
+$request = wp_remote_retrieve_body( wp_remote_get( "http://gregrickaby.com/?gifs$search_url&json" ) );
 $gregs_gifs = array();
 if ( $request ) {
 	$gregs_gifs = json_decode( $request );
@@ -40,7 +43,6 @@ if ( ! $gifs )
 ksort( $gifs );
 
 $replace = site_url( '/?gifs=' );
-$search = ! empty( $_GET['gifs'] ) ? $_GET['gifs'] : '';
 
 $bgs = array(
 	'cube.gif',
