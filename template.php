@@ -49,6 +49,7 @@ $bgs = array(
 	'trippy-triangular-bg.gif',
 	'gyroscopic-bg.gif',
 	'rock-transform-bg.gif',
+	'giffy.gif',
 );
 $bg = $bgs[ array_rand( $bgs ) ];
 $bg = jtGiffySite::$plugin_url .'bgs/'. $bg;
