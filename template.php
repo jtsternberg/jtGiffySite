@@ -102,7 +102,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		font-size: 16px;
 		z-index: 2;
 	}
-	input, button {
+	.gifs input, .gifs button {
 		border-radius: .5em;
 		border: 6px solid #00b9f1;
 		-moz-box-shadow:    0px 8px 13px -6px #333;
@@ -111,7 +111,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		font-family: 'mclarenregular', sans-serif !important;
 
 	}
-	input {
+	.gifs input {
 		font-weight: bold;
 		display: block;
 		width: 100%;
@@ -120,7 +120,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		font-size: 16px;
 		margin: 0 auto;
 	}
-	button {
+	.gifs button {
 		background: #00b9f1;
 		text-transform: lowercase;
 		font-size: 1.3em;
@@ -142,21 +142,21 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	:-ms-input-placeholder {
 		color: #00b9f1;
 	}
-	a {
+	.gifs a {
 		color: #00b9f1;
 	}
-	ul {
+	.gifs ul {
 		clear: both;
 		padding: .5em 0;
 		margin-top: 10em;
 	}
-	li {
+	.gifs li {
 		color:black;
 		padding:6px;
 		display: none;
 		list-style-type: none;
 	}
-	li a {
+	.gifs li a {
 		color: #00b9f1;
 		/*text-shadow: 1px 1px 0px rgba(0,0,0,.2);*/
 		font-weight: bold;
@@ -167,15 +167,15 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	.hide {
 		display: none;
 	}
-	img {
+	.gifs img {
 		max-width: 100%;
 		max-height: 100%;
 		cursor: pointer;
 	}
-	.not-mobile li:hover span {
+	.not-mobile .gifs li:hover span {
 		display: none;
 	}
-	.not-mobile li:hover .hide {
+	.not-mobile .gifs li:hover .hide {
 		display: inline !important;
 	}
 	#preview {
@@ -209,7 +209,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		top: 0;
 		right: 0;
 	}
-	ul {
+	.gifs ul {
 		margin-top: 0em;
 	}
 	@media screen and (max-width: 400px) {
@@ -239,10 +239,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			min-width: 80px;
 			margin: 1em auto 0;
 		}
-		li {
+		.gifs li {
 			text-align: center;
 		}
-		li a {
+		.gifs li a {
 			display: block;
 			text-align: left;
 		}
@@ -284,7 +284,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		var $lis      = $gifs.find( 'li' );
 		var topH      = Math.round( $gifs.find( '#top' ).height() + 50 );
 		var doSubmit  = false;
-		var isMobile  = $('body').hasClass( 'mobile' );
+		var isMobile  = $('.gifs').hasClass( 'mobile' );
 		var doFocus   = true;
 		var $item     = null;
 
@@ -405,6 +405,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 			}
 	});
 	</script>
+	<?php wp_footer(); ?>
 </body>
 </html>
 <?php
