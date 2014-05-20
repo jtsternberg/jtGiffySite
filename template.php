@@ -164,7 +164,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	}
 	#search {
 	}
-	.hide {
+	.gifs .hide {
 		display: none;
 	}
 	.gifs img {
