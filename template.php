@@ -61,7 +61,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>WDS Gifs</title>
+	<title>WDS Giffy</title>
 	<script src="<?php echo site_url( $wp_scripts->registered['jquery-core']->src ); ?>" type="text/javascript"></script>
 	<link href="<?php echo jtGiffySite::$plugin_url .'mclaren/stylesheet.css'; ?>" rel="stylesheet" type="text/css">
 	<meta name="description" content="all the gifs">
@@ -69,7 +69,9 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 	<!-- Sets initial viewport load  -->
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-
+	<link rel="apple-touch-icon" href="<?php echo jtGiffySite::$plugin_url .'bgs/giffy.gif'; ?>"/>
+	<!-- <link rel="apple-touch-startup-image" href="<?php echo jtGiffySite::$plugin_url .'bgs/giffy.gif'; ?>" /> -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<style type="text/css" media="screen">
 
 	* {
