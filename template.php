@@ -284,7 +284,7 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		var $lis      = $gifs.find( 'li' );
 		var topH      = Math.round( $gifs.find( '#top' ).height() + 50 );
 		var doSubmit  = false;
-		var isMobile  = $('.gifs').hasClass( 'mobile' );
+		var isMobile  = $('body').hasClass( 'mobile' );
 		var doFocus   = true;
 		var $item     = null;
 
