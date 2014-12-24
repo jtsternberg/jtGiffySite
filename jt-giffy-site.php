@@ -14,7 +14,7 @@ class jtGiffySite {
 	public static $plugin_url  = null;
 	public static $plugin_dir  = null;
 	const PLUGIN  = 'jtGiffySite';
-	const VERSION = '0.1.0';
+	const VERSION = '0.1.1';
 
 	public function __construct() {
 
