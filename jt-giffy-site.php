@@ -6,7 +6,7 @@ Description: Search for gifs in a collection
 Author URI: http://jtsternberg.com
 Author: Jtsternberg
 Donate link: http://dsgnwrks.pro/give/
-Version: 0.1.0
+Version: 0.1.1
 */
 
 class jtGiffySite {
