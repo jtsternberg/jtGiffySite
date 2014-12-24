@@ -1,4 +1,5 @@
 <?php
+global $jtGiffy, $wp_scripts;
 
 $search = ! empty( $_GET['gifs'] ) ? $_GET['gifs'] : '';
 $search_url = $search ? '='. $search : '';
@@ -19,7 +20,26 @@ if ( $request ) {
 	$gregs_gifs = isset( $gregs_gifs->data ) ? $gregs_gifs->data : array();
 }
 
-global $jtGiffy, $wp_scripts;
+
+$response = wp_remote_retrieve_body( wp_remote_get( 'http://bukk.it/' ) );
+$bukkit = new DOMDocument();
+$bukkit->loadHTML( $response );
+
+$bukkit_gifs = array();
+
+foreach ( $bukkit->getElementsByTagName( 'a' ) as $link ) {
+	// Get link href
+	$path = $link->getAttribute( 'href' );
+	if ( $gif = $jtGiffy->process_gif( $path, $search ) ) {
+
+		$bukkit_gifs[ $gif['filename'] ] = (object) array(
+			'name' => $gif['name'],
+			'src'  => 'http://bukk.it/'. $path,
+		);
+	}
+
+}
+
 
 // Halt here for json
 if ( isset( $_GET['json'] ) ) {
@@ -27,14 +47,17 @@ if ( isset( $_GET['json'] ) ) {
 	$my_gifs = $jtGiffy->gif_urls( $jtGiffy->gif_paths() );
 	$my_gifs = $my_gifs ? $my_gifs : array();
 
-	$gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs );
+	$gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs, (array) $bukkit_gifs );
 
 	wp_send_json_success( $gifs );
 
 }
 
 $my_gifs = $jtGiffy->get_gifs();
-$gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs );
+
+
+// $parbs_gifs = array();
+$gifs = array_merge( (array) $my_gifs, (array) $parbs_gifs, (array) $gregs_gifs, (array) $bukkit_gifs );
 
 // bail if no gifs.
 if ( ! $gifs )
@@ -268,8 +291,11 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 		<ul>
 		<?php
 		foreach ( $gifs as $filename => $gif ) {
-			$name = $gif->name;
-			echo '<li data-name="'. $name .'"><a href="'. $gif->src .'" target="_blank"><span>'. $gif->name .'</span><span class="hide">'. $gif->src .'</span></a></li>';
+			if ( ! isset( $gif->src ) ) {
+				continue;
+			}
+			$name = isset( $gif->name ) ? esc_attr( $gif->name ) : esc_attr( $gif->src );
+			echo '<li data-name="'. $name .'"><a href="'. $gif->src .'" target="_blank"><span>'. $name .'</span><span class="hide">'. $gif->src .'</span></a></li>';
 		}
 		?>
 		</ul>
@@ -345,7 +371,6 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				var search = $(this).val().toUpperCase();
 				var first  = true;
 				$search.data( 'cache', search );
-
 				$preview.hide();
 
 				if ( ! search )
@@ -354,8 +379,10 @@ $spin = includes_url( '/images/spinner-2x.gif' );
 				$share.show();
 				$lis.hide().each( function() {
 					var $self = $(this);
+					var name = $self.data( 'name' );
+					name = name ? String( name ).toUpperCase() : false;
 
-					if ( $self.data( 'name' ).toUpperCase().indexOf( search ) != -1 ) {
+					if ( name && -1 !== name.indexOf( search ) ) {
 						$self.show();
 						if ( first ) {
 							doPreview( $self.find( 'a' ).attr('href') );
