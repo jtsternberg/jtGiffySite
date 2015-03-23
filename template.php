@@ -20,7 +20,7 @@ if ( $request ) {
 	$gregs_gifs = isset( $gregs_gifs->data ) ? $gregs_gifs->data : array();
 }
 
-
+// Get Bukkit's gifs
 $response = wp_remote_retrieve_body( wp_remote_get( 'http://bukk.it/' ) );
 $bukkit = new DOMDocument();
 $bukkit->loadHTML( $response );
