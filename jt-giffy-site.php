@@ -17,6 +17,22 @@ class jtGiffySite {
 	const VERSION = '0.1.1';
 
 	public function __construct() {
+		$this->request = $_REQUEST;
+		$this->is_json_url = 0 === strpos( $_SERVER['REQUEST_URI'], '/jtgiffy/json' );
+
+		if ( isset( $this->request['gifs'], $this->request['json'] ) || isset( $_SERVER['REQUEST_URI'] ) && $this->is_json_url ) {
+			$this->request['gifs'] = isset( $this->request['gifs'] ) ? $this->request['gifs'] : '';
+			$this->request['json'] = 1;
+
+			if ( ! empty( $this->request['text'] ) ) {
+				$this->request['gifs'] = '';
+
+			} elseif ( ! empty( $this->request['gifs'] ) ) {
+				$this->request['text'] = $this->request['gifs'];
+				$this->request['gifs'] = '';
+			}
+		}
+
 
 		self::$this_plugin = plugin_basename( __FILE__ );
 		self::$plugin_url  = trailingslashit( plugins_url( '' , __FILE__ )  );;
@@ -33,7 +49,8 @@ class jtGiffySite {
 	public function hooks() {
 		global $jtGiffy;
 
-		if ( isset( $_GET['gifs'] ) ) {
+		if ( isset( $this->request['gifs'] ) ) {
+			$_REQUEST = $this->request;
 			remove_action( 'template_redirect', array( $jtGiffy, 'get_gifs' ), 9999 );
 			add_action( 'template_redirect', array( $this, 'thegifs' ), 9999 );
 		}

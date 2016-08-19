@@ -1,7 +1,8 @@
 <?php
 global $jtGiffy, $wp_scripts;
 
-$search = ! empty( $_GET['gifs'] ) ? $_GET['gifs'] : '';
+$search = ! empty( $this->request['gifs'] ) ? $this->request['gifs'] : '';
+$search = empty( $search ) && ! empty( $this->request['text'] ) ? $this->request['text'] : '';
 $search_url = $search ? '='. $search : '';
 
 // Get Parbs' gifs
@@ -10,15 +11,20 @@ $parbs_gifs = array();
 if ( $request ) {
 	$parbs_gifs = json_decode( $request );
 	$parbs_gifs = isset( $parbs_gifs->data ) ? $parbs_gifs->data : array();
+	if ( $search ) {
+		$parbs_gifs = array_filter( (array) $parbs_gifs, function( $data ) use ( $search ) {
+			return isset( $data->name ) && false !== strpos( $data->name, $search );
+		} );
+	}
 }
 
 // Get Greg's gifs
-$request = wp_remote_retrieve_body( wp_remote_get( "http://gregrickaby.com/?gifs$search_url&json" ) );
+// $request = wp_remote_retrieve_body( wp_remote_get( "http://gregrickaby.com/?gifs$search_url&json" ) );
 $gregs_gifs = array();
-if ( $request ) {
-	$gregs_gifs = json_decode( $request );
-	$gregs_gifs = isset( $gregs_gifs->data ) ? $gregs_gifs->data : array();
-}
+// if ( $request ) {
+// 	$gregs_gifs = json_decode( $request );
+// 	$gregs_gifs = isset( $gregs_gifs->data ) ? $gregs_gifs->data : array();
+// }
 
 // Get Bukkit's gifs
 $response = wp_remote_retrieve_body( wp_remote_get( 'http://bukk.it/' ) );
@@ -42,7 +48,7 @@ foreach ( $bukkit->getElementsByTagName( 'a' ) as $link ) {
 
 
 // Halt here for json
-if ( isset( $_GET['json'] ) ) {
+if ( isset( $this->request['json'] ) ) {
 
 	$my_gifs = $jtGiffy->gif_urls( $jtGiffy->gif_paths() );
 	$my_gifs = $my_gifs ? $my_gifs : array();
