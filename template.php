@@ -6,17 +6,17 @@ $search = empty( $search ) && ! empty( $this->request['text'] ) ? $this->request
 $search_url = $search ? '='. $search : '';
 
 // Get Parbs' gifs
-$request = wp_remote_retrieve_body( wp_remote_get( 'http://gifsb.in/gifs.json' ) );
+// $request = wp_remote_retrieve_body( wp_remote_get( 'http://gifsb.in/gifs.json' ) );
 $parbs_gifs = array();
-if ( $request ) {
-	$parbs_gifs = json_decode( $request );
-	$parbs_gifs = isset( $parbs_gifs->data ) ? $parbs_gifs->data : array();
-	if ( $search ) {
-		$parbs_gifs = array_filter( (array) $parbs_gifs, function( $data ) use ( $search ) {
-			return isset( $data->name ) && false !== strpos( $data->name, $search );
-		} );
-	}
-}
+// if ( $request ) {
+// 	$parbs_gifs = json_decode( $request );
+// 	$parbs_gifs = isset( $parbs_gifs->data ) ? $parbs_gifs->data : array();
+// 	if ( $search ) {
+// 		$parbs_gifs = array_filter( (array) $parbs_gifs, function( $data ) use ( $search ) {
+// 			return isset( $data->name ) && false !== strpos( $data->name, $search );
+// 		} );
+// 	}
+// }
 
 // Get Greg's gifs
 // $request = wp_remote_retrieve_body( wp_remote_get( "http://gregrickaby.com/?gifs$search_url&json" ) );
